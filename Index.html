@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>CAPS — SLAP TEST</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&display=swap');
+
+  :root {
+    --bg: #0a0a0a;
+    --surface: #111;
+    --border: #1e1e1e;
+    --orange: #ff6b00;
+    --green: #00ff88;
+    --red: #ff2244;
+    --text: #f0f0f0;
+    --muted: #444;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Space Mono', monospace;
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  /* ── PERMISSION SCREEN ── */
+  #permScreen {
+    position: fixed; inset: 0; z-index: 99;
+    background: var(--bg);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 24px; padding: 40px;
+    text-align: center;
+  }
+
+  #permScreen .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 48px; letter-spacing: 6px;
+    color: var(--orange);
+  }
+
+  #permScreen h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px; letter-spacing: 3px;
+    color: var(--text);
+  }
+
+  #permScreen p {
+    font-size: 11px; line-height: 2;
+    color: var(--muted); max-width: 280px;
+  }
+
+  .btn-start {
+    width: 100%; max-width: 280px; height: 60px;
+    background: var(--orange); border: none; border-radius: 6px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px; letter-spacing: 4px;
+    color: #000; cursor: pointer;
+  }
+
+  /* ── MAIN UI ── */
+  header {
+    width: 100%; padding: 18px 24px 0;
+    display: flex; justify-content: space-between; align-items: flex-start;
+    flex-shrink: 0;
+  }
+
+  .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 30px; letter-spacing: 4px; color: var(--orange);
+  }
+
+  .label-small {
+    font-size: 8px; letter-spacing: 3px; color: var(--muted);
+    text-transform: uppercase; padding-top: 5px; text-align: right;
+  }
+
+  .stage {
+    flex: 1; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    width: 100%; gap: 18px; padding: 8px 20px;
+  }
+
+  /* ── STATUS ── */
+  .status-badge {
+    font-size: 9px; letter-spacing: 3px; text-transform: uppercase;
+    padding: 4px 14px; border-radius: 20px;
+    border: 1px solid var(--border); color: var(--muted);
+    transition: all 0.2s; flex-shrink: 0;
+  }
+  .status-badge.armed        { border-color: var(--orange); color: var(--orange); animation: armed-pulse 1.5s infinite alternate; }
+  .status-badge.detected     { border-color: #fff; color: #fff; }
+  .status-badge.result-heads { border-color: var(--green); color: var(--green); }
+  .status-badge.result-tails { border-color: var(--red);   color: var(--red); }
+  @keyframes armed-pulse { from { opacity:1; } to { opacity:.5; } }
+
+  /* ── SENSITIVITY BAR ── */
+  .sens-row {
+    display: flex; align-items: center; gap: 10px;
+    width: 100%; max-width: 320px; flex-shrink: 0;
+  }
+  .sens-label { font-size: 8px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; width: 60px; }
+  .sens-bar { flex: 1; height: 3px; background: var(--border); border-radius: 2px; overflow: hidden; }
+  .sens-fill { height: 100%; width: 0%; border-radius: 2px; background: var(--orange); transition: width .05s; }
+  .sens-val { font-family: 'Bebas Neue', sans-serif; font-size: 16px; color: var(--muted); width: 32px; text-align: right; }
+
+  /* ── COIN ── */
+  .coin-scene { width: 160px; height: 160px; perspective: 600px; flex-shrink: 0; }
+
+  .coin {
+    width: 160px; height: 160px;
+    position: relative; transform-style: preserve-3d;
+    transform: rotateX(0deg); transition: none;
+  }
+
+  .coin-face, .coin-back {
+    position: absolute; width: 160px; height: 160px;
+    border-radius: 50%; backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .coin-face {
+    background: radial-gradient(circle at 35% 35%, #f0d060, #c9922a 55%, #7a4a10);
+    box-shadow: 0 0 0 5px #2a2a2a, 0 0 0 7px #383838,
+      0 16px 50px rgba(0,0,0,.85), inset 0 -8px 24px rgba(0,0,0,.4);
+  }
+  .coin-face::after {
+    content: "DAD'S";
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px; letter-spacing: 2px;
+    color: rgba(255,255,255,.9); text-shadow: 0 2px 4px rgba(0,0,0,.5);
+  }
+
+  .coin-back {
+    background: radial-gradient(circle at 60% 60%, #3a3a3a, #1a1a1a 55%, #0a0a0a);
+    box-shadow: 0 0 0 5px #2a2a2a, 0 0 0 7px #1a1a1a,
+      0 16px 50px rgba(0,0,0,.85), inset 0 8px 24px rgba(0,0,0,.6);
+    transform: rotateX(180deg);
+  }
+  .coin-back::after {
+    content: "✕";
+    font-family: 'Bebas Neue', sans-serif; font-size: 48px;
+    color: rgba(255,255,255,.12);
+  }
+
+  .coin-shadow {
+    width: 140px; height: 18px; border-radius: 50%;
+    background: rgba(0,0,0,.5); margin-top: -6px;
+    flex-shrink: 0; transition: opacity .3s;
+  }
+
+  /* ── POWER ── */
+  .power-display { text-align: center; flex-shrink: 0; }
+
+  .power-number {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 86px; line-height: 1; letter-spacing: -2px;
+    transition: color .15s; color: var(--muted);
+  }
+  .power-number.mid  { color: var(--orange); }
+  .power-number.high { color: var(--green); }
+  .power-number.max  { color: var(--red); text-shadow: 0 0 40px var(--red); }
+  .power-label { font-size: 8px; letter-spacing: 4px; color: var(--muted); text-transform: uppercase; }
+
+  .meter-bar { width: 100%; max-width: 260px; height: 3px; background: var(--border); border-radius: 2px; overflow: hidden; flex-shrink: 0; }
+  .meter-fill { height: 100%; width: 0%; border-radius: 2px; background: var(--orange); transition: width .1s, background .2s; }
+
+  /* ── STATS ── */
+  .stats-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; width: 100%; max-width: 320px; flex-shrink: 0; }
+  .stat-box { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 8px; text-align: center; }
+  .stat-val { font-family: 'Bebas Neue', sans-serif; font-size: 20px; }
+  .stat-key { font-size: 7px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; margin-top: 1px; }
+
+  /* ── HISTORY ── */
+  .history { width: 100%; max-width: 320px; height: 36px; display: flex; gap: 3px; align-items: flex-end; flex-shrink: 0; }
+  .history-bar { flex: 1; border-radius: 2px 2px 0 0; background: var(--border); min-height: 3px; transition: height .2s, background .2s; }
+
+  /* ── BOTTOM ── */
+  .bottom-panel {
+    width: 100%; padding: 10px 20px 30px;
+    display: flex; flex-direction: column; gap: 8px; align-items: center; flex-shrink: 0;
+  }
+
+  /* Sensitivity slider */
+  .slider-row { display: flex; align-items: center; gap: 10px; width: 100%; max-width: 320px; }
+  .slider-row label { font-size: 8px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; white-space: nowrap; }
+  input[type=range] {
+    flex: 1; -webkit-appearance: none; appearance: none;
+    height: 3px; background: var(--border); border-radius: 2px; outline: none;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none; width: 18px; height: 18px;
+    border-radius: 50%; background: var(--orange); cursor: pointer;
+  }
+  .slider-num { font-family: 'Bebas Neue', sans-serif; font-size: 18px; color: var(--orange); width: 28px; text-align: right; }
+
+  .btn-reset { background: none; border: 1px solid var(--border); color: var(--muted); font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 2px; padding: 6px 18px; border-radius: 4px; cursor: pointer; text-transform: uppercase; }
+
+  .flash { position: fixed; inset: 0; background: white; opacity: 0; pointer-events: none; z-index: 90; }
+  .flash.go { animation: flash-out .2s ease-out; }
+  @keyframes flash-out { 0% { opacity:.18; } 100% { opacity:0; } }
+
+  #debugLog { position: fixed; bottom: 4px; left: 0; right: 0; font-size: 8px; color: #2a2a2a; text-align: center; pointer-events: none; }
+</style>
+</head>
+<body>
+
+<div class="flash" id="flash"></div>
+<div id="debugLog">—</div>
+
+<!-- ONE-TIME permission tap -->
+<div id="permScreen">
+  <div class="logo">CAPS</div>
+  <h2>РАЗРЕШИ ГИРОСКОП</h2>
+  <p>Одно нажатие — и дальше просто слэпай телефон когда хочешь. Кнопка больше не нужна.</p>
+  <button class="btn-start" onclick="initGyro()">ПОЕХАЛИ</button>
+  <p style="font-size:9px;color:#222">iOS: открой в Safari<br>Android: любой браузер</p>
+</div>
+
+<header>
+  <div class="logo">CAPS</div>
+  <div class="label-small">SLAP<br>PROTO v0.2</div>
+</header>
+
+<div class="stage">
+
+  <div class="status-badge armed" id="statusBadge">● ГОТОВ К УДАРУ</div>
+
+  <!-- live accel bar -->
+  <div class="sens-row">
+    <span class="sens-label">СИЛА</span>
+    <div class="sens-bar"><div class="sens-fill" id="sensFill"></div></div>
+    <span class="sens-val" id="sensVal">0</span>
+  </div>
+
+  <div class="coin-scene">
+    <div class="coin" id="coin">
+      <div class="coin-face"></div>
+      <div class="coin-back"></div>
+    </div>
+  </div>
+
+  <div class="coin-shadow" id="coinShadow"></div>
+
+  <div class="power-display">
+    <div class="power-number" id="powerNum">0</div>
+    <div class="power-label">INPUT POWER</div>
+  </div>
+
+  <div class="meter-bar">
+    <div class="meter-fill" id="meterFill"></div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-box"><div class="stat-val" id="bestStat">0</div><div class="stat-key">Лучший</div></div>
+    <div class="stat-box"><div class="stat-val" id="avgStat">0</div><div class="stat-key">Средний</div></div>
+    <div class="stat-box"><div class="stat-val" id="countStat">0</div><div class="stat-key">Ударов</div></div>
+  </div>
+
+  <div class="history" id="history"></div>
+
+</div>
+
+<div class="bottom-panel">
+  <div class="slider-row">
+    <label>ПОРОГ</label>
+    <input type="range" id="threshSlider" min="10" max="60" value="28">
+    <span class="slider-num" id="threshVal">28</span>
+  </div>
+  <button class="btn-reset" onclick="resetAll()">СБРОС</button>
+</div>
+
+<script>
+// ─── Config ───────────────────────────────────────────────────
+let THRESHOLD = 28;       // min magnitude to count as slap
+const COOLDOWN_MS = 800;  // min ms between slaps
+const WINDOW_MS   = 200;  // ms window to find peak after trigger
+
+// ─── State ────────────────────────────────────────────────────
+let lastSlapTime = 0;
+let inWindow     = false;
+let windowTimer  = null;
+let windowPeak   = 0, windowAx = 0, windowAy = 0, windowAz = 0;
+let best = 0, count = 0, total = 0, histArr = [];
+
+// ─── DOM ──────────────────────────────────────────────────────
+const badge     = document.getElementById('statusBadge');
+const powerNum  = document.getElementById('powerNum');
+const meterFill = document.getElementById('meterFill');
+const coin      = document.getElementById('coin');
+const shadow    = document.getElementById('coinShadow');
+const flashEl   = document.getElementById('flash');
+const histEl    = document.getElementById('history');
+const sensFill  = document.getElementById('sensFill');
+const sensVal   = document.getElementById('sensVal');
+const threshSlider = document.getElementById('threshSlider');
+const threshVal    = document.getElementById('threshVal');
+const debugLog  = document.getElementById('debugLog');
+
+for (let i = 0; i < 20; i++) {
+  const b = document.createElement('div');
+  b.className = 'history-bar';
+  histEl.appendChild(b);
+}
+
+// ─── Threshold slider ─────────────────────────────────────────
+threshSlider.addEventListener('input', () => {
+  THRESHOLD = parseInt(threshSlider.value);
+  threshVal.textContent = THRESHOLD;
+});
+
+// ─── Gyro init ────────────────────────────────────────────────
+function initGyro() {
+  document.getElementById('permScreen').style.display = 'none';
+
+  const start = () => window.addEventListener('devicemotion', onMotion, true);
+
+  if (typeof DeviceMotionEvent !== 'undefined' &&
+      typeof DeviceMotionEvent.requestPermission === 'function') {
+    DeviceMotionEvent.requestPermission()
+      .then(s => { if (s === 'granted') start(); else alert('Нет доступа к гироскопу'); })
+      .catch(console.error);
+  } else {
+    start();
+  }
+}
+
+// ─── Motion handler ───────────────────────────────────────────
+function onMotion(e) {
+  const acc = e.accelerationIncludingGravity || e.acceleration;
+  if (!acc) return;
+
+  const ax  = acc.x || 0;
+  const ay  = acc.y || 0;
+  const az  = acc.z || 0;
+  const mag = Math.sqrt(ax*ax + ay*ay + az*az);
+
+  // live bar (remove gravity baseline ~9.8)
+  const live = Math.max(0, mag - 9.8);
+  const livePct = Math.min(100, (live / 50) * 100);
+  sensFill.style.width  = livePct + '%';
+  sensVal.textContent   = Math.round(live);
+  sensFill.style.background = livePct > 70 ? 'var(--red)' : livePct > 40 ? 'var(--green)' : 'var(--orange)';
+
+  debugLog.textContent = `mag:${mag.toFixed(1)}  thresh:${THRESHOLD}  cooldown:${Math.max(0, COOLDOWN_MS-(Date.now()-lastSlapTime))}ms`;
+
+  const now = Date.now();
+  if (now - lastSlapTime < COOLDOWN_MS) return;
+
+  // trigger detection
+  if (!inWindow && mag > THRESHOLD) {
+    inWindow    = true;
+    windowPeak  = mag;
+    windowAx    = ax; windowAy = ay; windowAz = az;
+
+    // collect peak over short window then fire
+    windowTimer = setTimeout(() => {
+      inWindow = false;
+      lastSlapTime = Date.now();
+      fireSlap(windowPeak, windowAx, windowAy, windowAz);
+    }, WINDOW_MS);
+  }
+
+  // track peak within window
+  if (inWindow && mag > windowPeak) {
+    windowPeak = mag; windowAx = ax; windowAy = ay; windowAz = az;
+  }
+}
+
+// ─── Fire slap ────────────────────────────────────────────────
+function fireSlap(peakMag, ax, ay, az) {
+  const adjusted = Math.max(0, peakMag - 9.8);
+  const power    = Math.min(100, Math.round((adjusted / 55) * 100));
+
+  badge.textContent = '⚡ УДАР!';
+  badge.className   = 'status-badge detected';
+
+  setTimeout(() => {
+    badge.className = 'status-badge armed';
+    badge.textContent = '● ГОТОВ К УДАРУ';
+  }, 1200);
+
+  updatePower(power);
+  updateStats(power);
+  doFlash(power);
+  launchCoin(power);
+}
+
+// ─── Coin animation ───────────────────────────────────────────
+let coinAnimId = null;
+let coinAngle  = 0;
+let coinVel    = 0;
+let coinTarget = 0;
+let coinPhase  = 'idle';
+
+function launchCoin(power) {
+  if (coinAnimId) cancelAnimationFrame(coinAnimId);
+  coin.style.transition = 'none';
+
+  const spins  = 2 + Math.floor((power / 100) * 5);
+  const lands  = Math.random() < 0.5 ? 0 : 180;
+  coinTarget   = spins * 360 + lands;
+  coinAngle    = 0;
+  coinVel      = 7 + (power / 100) * 20;
+  coinPhase    = 'flying';
+  shadow.style.opacity = '0.1';
+
+  animateCoin();
+}
+
+function animateCoin() {
+  if (coinPhase === 'flying') {
+    coinAngle += coinVel;
+
+    const remaining = coinTarget - coinAngle;
+    if (remaining < coinVel * 14) coinVel = Math.max(1.2, coinVel * 0.87);
+
+    if (coinAngle >= coinTarget) {
+      const norm   = coinTarget % 360;
+      coinAngle    = (norm < 90 || norm >= 270) ? 0 : 180;
+      coinPhase    = 'done';
+
+      coin.style.transition = 'transform 0.28s cubic-bezier(0.25,0.46,0.45,0.94)';
+      coin.style.transform  = `rotateX(${coinAngle}deg)`;
+      shadow.style.opacity  = '0.5';
+
+      const isHeads = coinAngle === 0;
+      setTimeout(() => {
+        badge.textContent = isHeads ? '★ ЛИЦО — ПОБЕДА' : '✕ ИЗНАНКА — МИМО';
+        badge.className   = 'status-badge ' + (isHeads ? 'result-heads' : 'result-tails');
+        coin.style.transition = 'none';
+
+        // arm again after showing result
+        setTimeout(() => {
+          badge.textContent = '● ГОТОВ К УДАРУ';
+          badge.className   = 'status-badge armed';
+        }, 1500);
+      }, 300);
+      return;
+    }
+
+    coin.style.transition = 'none';
+    coin.style.transform  = `rotateX(${coinAngle}deg)`;
+
+    const pct = coinAngle / coinTarget;
+    const arc = Math.sin(pct * Math.PI);
+    shadow.style.opacity   = (0.08 + (1 - arc) * 0.42).toString();
+    shadow.style.transform = `scaleX(${1 - arc * 0.4})`;
+  }
+
+  coinAnimId = requestAnimationFrame(animateCoin);
+}
+
+// ─── UI helpers ───────────────────────────────────────────────
+function updatePower(p) {
+  powerNum.textContent = p;
+  meterFill.style.width = p + '%';
+  powerNum.className = 'power-number';
+  if      (p < 1)  { meterFill.style.background = 'var(--muted)'; }
+  else if (p < 40) { powerNum.classList.add('mid');  meterFill.style.background = 'var(--orange)'; }
+  else if (p < 75) { powerNum.classList.add('high'); meterFill.style.background = 'var(--green)'; }
+  else             { powerNum.classList.add('max');  meterFill.style.background = 'var(--red)'; }
+}
+
+function updateStats(p) {
+  count++; total += p;
+  if (p > best) best = p;
+  document.getElementById('bestStat').textContent  = best;
+  document.getElementById('avgStat').textContent   = Math.round(total / count);
+  document.getElementById('countStat').textContent = count;
+  histArr.push(p);
+  if (histArr.length > 20) histArr.shift();
+  const bars = histEl.querySelectorAll('.history-bar');
+  bars.forEach((bar, i) => {
+    const val = histArr[histArr.length - 20 + i];
+    if (!val) { bar.style.height = '3px'; bar.style.background = 'var(--border)'; }
+    else {
+      bar.style.height     = Math.max(3, (val/100)*32) + 'px';
+      bar.style.background = val >= 75 ? 'var(--red)' : val >= 40 ? 'var(--green)' : 'var(--orange)';
+    }
+  });
+}
+
+function doFlash(p) {
+  if (p > 50) {
+    flashEl.classList.remove('go');
+    void flashEl.offsetWidth;
+    flashEl.classList.add('go');
+  }
+}
+
+function resetAll() {
+  best = 0; count = 0; total = 0; histArr = [];
+  updatePower(0);
+  ['bestStat','avgStat','countStat'].forEach(id => document.getElementById(id).textContent = '0');
+  histEl.querySelectorAll('.history-bar').forEach(b => { b.style.height='3px'; b.style.background='var(--border)'; });
+  coin.style.transition = 'none';
+  coin.style.transform  = 'rotateX(0deg)';
+  shadow.style.opacity  = '0.5';
+  if (coinAnimId) { cancelAnimationFrame(coinAnimId); coinAnimId = null; }
+  badge.textContent = '● ГОТОВ К УДАРУ';
+  badge.className   = 'status-badge armed';
+}
+</script>
+</body>
+</html>
