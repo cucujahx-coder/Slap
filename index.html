@@ -14,6 +14,9 @@
     --orange: #ff6b00;
     --green: #00ff88;
     --red: #ff2244;
+    --blue: #2a9dff;
+    --wood: #b5732e;
+    --wood-dark: #6e4218;
     --text: #f0f0f0;
     --muted: #444;
   }
@@ -25,188 +28,209 @@
     color: var(--text);
     font-family: 'Space Mono', monospace;
     height: 100dvh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    display: flex; flex-direction: column; align-items: center;
     overflow: hidden;
   }
 
-  /* ── PERMISSION SCREEN ── */
   #permScreen {
-    position: fixed; inset: 0; z-index: 99;
-    background: var(--bg);
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    gap: 24px; padding: 40px;
-    text-align: center;
+    position: fixed; inset: 0; z-index: 99; background: var(--bg);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 24px; padding: 40px; text-align: center;
   }
-
-  #permScreen .logo {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 48px; letter-spacing: 6px;
-    color: var(--orange);
-  }
-
-  #permScreen h2 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 28px; letter-spacing: 3px;
-    color: var(--text);
-  }
-
-  #permScreen p {
-    font-size: 11px; line-height: 2;
-    color: var(--muted); max-width: 280px;
-  }
-
+  #permScreen .logo { font-family: 'Bebas Neue', sans-serif; font-size: 48px; letter-spacing: 6px; color: var(--orange); }
+  #permScreen h2 { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 3px; }
+  #permScreen p { font-size: 11px; line-height: 2; color: var(--muted); max-width: 280px; }
   .btn-start {
-    width: 100%; max-width: 280px; height: 60px;
-    background: var(--orange); border: none; border-radius: 6px;
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 26px; letter-spacing: 4px;
-    color: #000; cursor: pointer;
+    width: 100%; max-width: 280px; height: 60px; background: var(--orange);
+    border: none; border-radius: 6px; font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px; letter-spacing: 4px; color: #000; cursor: pointer;
   }
 
-  /* ── MAIN UI ── */
   header {
-    width: 100%; padding: 18px 24px 0;
-    display: flex; justify-content: space-between; align-items: flex-start;
-    flex-shrink: 0;
+    width: 100%; padding: 16px 24px 0;
+    display: flex; justify-content: space-between; align-items: flex-start; flex-shrink: 0;
+    z-index: 5;
   }
-
-  .logo {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 30px; letter-spacing: 4px; color: var(--orange);
-  }
-
-  .label-small {
-    font-size: 8px; letter-spacing: 3px; color: var(--muted);
-    text-transform: uppercase; padding-top: 5px; text-align: right;
-  }
+  .logo { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 4px; color: var(--orange); }
+  .label-small { font-size: 8px; letter-spacing: 3px; color: var(--muted); text-transform: uppercase; padding-top: 4px; text-align: right; }
 
   .stage {
-    flex: 1; display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    width: 100%; gap: 18px; padding: 8px 20px;
+    flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+    width: 100%; gap: 10px; padding: 6px 18px; overflow: hidden;
   }
 
-  /* ── STATUS ── */
   .status-badge {
     font-size: 9px; letter-spacing: 3px; text-transform: uppercase;
-    padding: 4px 14px; border-radius: 20px;
-    border: 1px solid var(--border); color: var(--muted);
-    transition: all 0.2s; flex-shrink: 0;
+    padding: 4px 14px; border-radius: 20px; border: 1px solid var(--border);
+    color: var(--muted); transition: all .2s; flex-shrink: 0; z-index: 5;
   }
-  .status-badge.armed        { border-color: var(--orange); color: var(--orange); animation: armed-pulse 1.5s infinite alternate; }
-  .status-badge.detected     { border-color: #fff; color: #fff; }
-  .status-badge.result-heads { border-color: var(--green); color: var(--green); }
-  .status-badge.result-tails { border-color: var(--red);   color: var(--red); }
+  .status-badge.armed       { border-color: var(--orange); color: var(--orange); animation: armed-pulse 1.5s infinite alternate; }
+  .status-badge.detected    { border-color: #fff; color: #fff; }
+  .status-badge.result-win  { border-color: var(--green); color: var(--green); }
+  .status-badge.result-lose { border-color: var(--red);   color: var(--red); }
   @keyframes armed-pulse { from { opacity:1; } to { opacity:.5; } }
 
-  /* ── SENSITIVITY BAR ── */
-  .sens-row {
-    display: flex; align-items: center; gap: 10px;
-    width: 100%; max-width: 320px; flex-shrink: 0;
+  /* ── ARENA: bat + stack ── */
+  .arena {
+    position: relative;
+    width: 100%; max-width: 360px;
+    height: 300px;
+    flex-shrink: 0;
+    display: flex; align-items: flex-end; justify-content: center;
   }
-  .sens-label { font-size: 8px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; width: 60px; }
-  .sens-bar { flex: 1; height: 3px; background: var(--border); border-radius: 2px; overflow: hidden; }
-  .sens-fill { height: 100%; width: 0%; border-radius: 2px; background: var(--orange); transition: width .05s; }
-  .sens-val { font-family: 'Bebas Neue', sans-serif; font-size: 16px; color: var(--muted); width: 32px; text-align: right; }
 
-  /* ── COIN ── */
-  .coin-scene { width: 160px; height: 160px; perspective: 600px; flex-shrink: 0; }
+  /* the cap stack sits at the bottom-center */
+  .stack-scene {
+    position: absolute;
+    bottom: 30px; left: 50%; transform: translateX(-50%);
+    width: 130px; height: 120px; perspective: 800px;
+  }
+  .stack-ground-shadow {
+    position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 120px; height: 14px; border-radius: 50%;
+    background: rgba(0,0,0,.6); filter: blur(3px);
+  }
+  .coin-scene {
+    position: absolute; left: 50%; width: 120px; height: 120px; margin-left: -60px;
+    transform-style: preserve-3d; transition: transform .3s;
+  }
+  .coin-scene[data-i="0"] { bottom: 6px;  z-index: 3; }
+  .coin-scene[data-i="1"] { bottom: 22px; z-index: 2; }
+  .coin-scene[data-i="2"] { bottom: 38px; z-index: 1; }
 
   .coin {
-    width: 160px; height: 160px;
-    position: relative; transform-style: preserve-3d;
-    transform: rotateX(0deg); transition: none;
+    width: 120px; height: 60px; position: relative;
+    transform-style: preserve-3d; transform: rotateX(60deg); transition: none;
   }
-
   .coin-face, .coin-back {
-    position: absolute; width: 160px; height: 160px;
-    border-radius: 50%; backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
+    position: absolute; width: 120px; height: 120px; border-radius: 50%;
+    backface-visibility: hidden; -webkit-backface-visibility: hidden;
     display: flex; align-items: center; justify-content: center;
+    top: -30px;
   }
-
   .coin-face {
-    background: radial-gradient(circle at 35% 35%, #f0d060, #c9922a 55%, #7a4a10);
-    box-shadow: 0 0 0 5px #2a2a2a, 0 0 0 7px #383838,
-      0 16px 50px rgba(0,0,0,.85), inset 0 -8px 24px rgba(0,0,0,.4);
+    background: radial-gradient(circle at 35% 30%, #f0d060, #c9922a 55%, #7a4a10);
+    box-shadow: 0 0 0 3px #2a2a2a, 0 0 0 4px #383838, inset 0 -5px 14px rgba(0,0,0,.4);
   }
   .coin-face::after {
-    content: "DAD'S";
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 26px; letter-spacing: 2px;
-    color: rgba(255,255,255,.9); text-shadow: 0 2px 4px rgba(0,0,0,.5);
+    content: "DAD'S"; font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: 1px;
+    color: rgba(255,255,255,.9); text-shadow: 0 1px 3px rgba(0,0,0,.5);
   }
-
   .coin-back {
     background: radial-gradient(circle at 60% 60%, #3a3a3a, #1a1a1a 55%, #0a0a0a);
-    box-shadow: 0 0 0 5px #2a2a2a, 0 0 0 7px #1a1a1a,
-      0 16px 50px rgba(0,0,0,.85), inset 0 8px 24px rgba(0,0,0,.6);
+    box-shadow: 0 0 0 3px #2a2a2a, 0 0 0 4px #1a1a1a, inset 0 5px 14px rgba(0,0,0,.6);
     transform: rotateX(180deg);
   }
-  .coin-back::after {
-    content: "✕";
-    font-family: 'Bebas Neue', sans-serif; font-size: 48px;
-    color: rgba(255,255,255,.12);
+  .coin-back::after { content: "✕"; font-family: 'Bebas Neue', sans-serif; font-size: 34px; color: rgba(255,255,255,.12); }
+
+  /* ── THE STRIKER (metal cap / биток) ── */
+  .bat-pivot {
+    position: absolute;
+    top: 30px; left: 50%;
+    width: 120px; height: 120px;
+    margin-left: -60px;
+    transform-origin: center center;
+    /* live position set via JS: translate + tilt */
+    transform: translate(0, 0) rotateX(50deg);
+    transition: transform .08s ease-out;
+    z-index: 4;
+    pointer-events: none;
+    transform-style: preserve-3d;
+  }
+  /* metal striker cap — same disc shape as the caps but steel */
+  .bat {
+    position: absolute;
+    top: 0; left: 0;
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle at 38% 30%, #ffffff 0%, #cfd6dd 18%, #9aa3ad 45%, #5e6873 70%, #2e353d 100%);
+    box-shadow:
+      0 0 0 3px #1a1d22,
+      0 0 0 5px #40474f,
+      0 0 0 6px #20242a,
+      0 14px 30px rgba(0,0,0,.7),
+      inset 0 -8px 18px rgba(0,0,0,.5),
+      inset 0 6px 14px rgba(255,255,255,.35);
+  }
+  /* brushed-metal sheen */
+  .bat::before {
+    content: ''; position: absolute;
+    inset: 14px; border-radius: 50%;
+    background:
+      conic-gradient(from 220deg,
+        rgba(255,255,255,0) 0deg,
+        rgba(255,255,255,.35) 40deg,
+        rgba(255,255,255,0) 90deg,
+        rgba(255,255,255,0) 220deg,
+        rgba(255,255,255,.25) 270deg,
+        rgba(255,255,255,0) 320deg);
+    border: 1px solid rgba(255,255,255,.12);
+  }
+  /* center bolt */
+  .bat::after {
+    content: ''; position: absolute;
+    top: 50%; left: 50%; transform: translate(-50%,-50%);
+    width: 26px; height: 26px; border-radius: 50%;
+    background: radial-gradient(circle at 40% 35%, #e8edf2, #8a929b 55%, #3a4047);
+    box-shadow: inset 0 -2px 4px rgba(0,0,0,.5), 0 1px 2px rgba(0,0,0,.6);
   }
 
-  .coin-shadow {
-    width: 140px; height: 18px; border-radius: 50%;
-    background: rgba(0,0,0,.5); margin-top: -6px;
-    flex-shrink: 0; transition: opacity .3s;
+  /* impact spark */
+  .spark {
+    position: absolute;
+    bottom: 90px; left: 50%; transform: translate(-50%, 0) scale(0);
+    width: 80px; height: 80px;
+    pointer-events: none; z-index: 6;
+  }
+  .spark.go { animation: spark-anim .35s ease-out; }
+  @keyframes spark-anim {
+    0%   { transform: translate(-50%,0) scale(0); opacity: 1; }
+    50%  { opacity: 1; }
+    100% { transform: translate(-50%,0) scale(2.2); opacity: 0; }
+  }
+  .spark::before, .spark::after {
+    content: ''; position: absolute; inset: 0;
+    background:
+      radial-gradient(circle, rgba(255,220,100,.9) 0%, transparent 30%),
+      conic-gradient(from 0deg, transparent 0deg, var(--orange) 10deg, transparent 20deg,
+        transparent 80deg, #ffd000 90deg, transparent 100deg,
+        transparent 170deg, var(--orange) 180deg, transparent 190deg,
+        transparent 260deg, #ffd000 270deg, transparent 280deg);
+    border-radius: 50%;
   }
 
-  /* ── POWER ── */
-  .power-display { text-align: center; flex-shrink: 0; }
-
-  .power-number {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 86px; line-height: 1; letter-spacing: -2px;
-    transition: color .15s; color: var(--muted);
+  /* impact tilt indicator on bat */
+  .tilt-readout {
+    position: absolute; top: 8px; left: 8px;
+    font-size: 8px; letter-spacing: 1px; color: var(--muted);
+    z-index: 5; line-height: 1.6;
   }
-  .power-number.mid  { color: var(--orange); }
-  .power-number.high { color: var(--green); }
-  .power-number.max  { color: var(--red); text-shadow: 0 0 40px var(--red); }
-  .power-label { font-size: 8px; letter-spacing: 4px; color: var(--muted); text-transform: uppercase; }
 
-  .meter-bar { width: 100%; max-width: 260px; height: 3px; background: var(--border); border-radius: 2px; overflow: hidden; flex-shrink: 0; }
-  .meter-fill { height: 100%; width: 0%; border-radius: 2px; background: var(--orange); transition: width .1s, background .2s; }
+  /* ── readouts ── */
+  .readout-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; width: 100%; max-width: 320px; flex-shrink: 0; }
+  .readout { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 7px 6px; text-align: center; }
+  .readout-num { font-family: 'Bebas Neue', sans-serif; font-size: 30px; line-height: 1; color: var(--muted); transition: color .15s; }
+  .readout.power .readout-num.on { color: var(--orange); }
+  .readout.x .readout-num.on { color: var(--blue); }
+  .readout.y .readout-num.on { color: var(--green); }
+  .readout-key { font-size: 7px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; margin-top: 2px; }
 
-  /* ── STATS ── */
   .stats-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; width: 100%; max-width: 320px; flex-shrink: 0; }
-  .stat-box { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 8px; text-align: center; }
-  .stat-val { font-family: 'Bebas Neue', sans-serif; font-size: 20px; }
+  .stat-box { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 6px; text-align: center; }
+  .stat-val { font-family: 'Bebas Neue', sans-serif; font-size: 16px; }
   .stat-key { font-size: 7px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; margin-top: 1px; }
 
-  /* ── HISTORY ── */
-  .history { width: 100%; max-width: 320px; height: 36px; display: flex; gap: 3px; align-items: flex-end; flex-shrink: 0; }
-  .history-bar { flex: 1; border-radius: 2px 2px 0 0; background: var(--border); min-height: 3px; transition: height .2s, background .2s; }
-
-  /* ── BOTTOM ── */
-  .bottom-panel {
-    width: 100%; padding: 10px 20px 30px;
-    display: flex; flex-direction: column; gap: 8px; align-items: center; flex-shrink: 0;
-  }
-
-  /* Sensitivity slider */
+  .bottom-panel { width: 100%; padding: 8px 20px 26px; display: flex; flex-direction: column; gap: 8px; align-items: center; flex-shrink: 0; }
   .slider-row { display: flex; align-items: center; gap: 10px; width: 100%; max-width: 320px; }
   .slider-row label { font-size: 8px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; white-space: nowrap; }
-  input[type=range] {
-    flex: 1; -webkit-appearance: none; appearance: none;
-    height: 3px; background: var(--border); border-radius: 2px; outline: none;
-  }
-  input[type=range]::-webkit-slider-thumb {
-    -webkit-appearance: none; width: 18px; height: 18px;
-    border-radius: 50%; background: var(--orange); cursor: pointer;
-  }
+  input[type=range] { flex: 1; -webkit-appearance: none; appearance: none; height: 3px; background: var(--border); border-radius: 2px; outline: none; }
+  input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%; background: var(--orange); cursor: pointer; }
   .slider-num { font-family: 'Bebas Neue', sans-serif; font-size: 18px; color: var(--orange); width: 28px; text-align: right; }
-
   .btn-reset { background: none; border: 1px solid var(--border); color: var(--muted); font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 2px; padding: 6px 18px; border-radius: 4px; cursor: pointer; text-transform: uppercase; }
 
   .flash { position: fixed; inset: 0; background: white; opacity: 0; pointer-events: none; z-index: 90; }
-  .flash.go { animation: flash-out .2s ease-out; }
+  .flash.go { animation: flash-out .15s ease-out; }
   @keyframes flash-out { 0% { opacity:.18; } 100% { opacity:0; } }
 
   #debugLog { position: fixed; bottom: 4px; left: 0; right: 0; font-size: 8px; color: #2a2a2a; text-align: center; pointer-events: none; }
@@ -217,56 +241,54 @@
 <div class="flash" id="flash"></div>
 <div id="debugLog">—</div>
 
-<!-- ONE-TIME permission tap -->
 <div id="permScreen">
   <div class="logo">CAPS</div>
   <h2>РАЗРЕШИ ГИРОСКОП</h2>
-  <p>Одно нажатие — и дальше просто слэпай телефон когда хочешь. Кнопка больше не нужна.</p>
+  <p>Металлический биток двигается вместе с телефоном. Наклоняй — целься, слэпни — удар по стэку.</p>
   <button class="btn-start" onclick="initGyro()">ПОЕХАЛИ</button>
-  <p style="font-size:9px;color:#222">iOS: открой в Safari<br>Android: любой браузер</p>
+  <p style="font-size:9px;color:#222">iOS: Safari • Android: любой браузер</p>
 </div>
 
 <header>
   <div class="logo">CAPS</div>
-  <div class="label-small">SLAP<br>PROTO v0.2</div>
+  <div class="label-small">SLAP<br>PROTO v0.6</div>
 </header>
 
 <div class="stage">
 
-  <div class="status-badge armed" id="statusBadge">● ГОТОВ К УДАРУ</div>
+  <div class="status-badge armed" id="statusBadge">● ЦЕЛЬСЯ И БЕЙ</div>
 
-  <!-- live accel bar -->
-  <div class="sens-row">
-    <span class="sens-label">СИЛА</span>
-    <div class="sens-bar"><div class="sens-fill" id="sensFill"></div></div>
-    <span class="sens-val" id="sensVal">0</span>
-  </div>
+  <div class="arena" id="arena">
+    <div class="tilt-readout" id="tiltReadout">TILT<br>x: 0<br>y: 0</div>
 
-  <div class="coin-scene">
-    <div class="coin" id="coin">
-      <div class="coin-face"></div>
-      <div class="coin-back"></div>
+    <!-- bat controlled by gyro -->
+    <div class="bat-pivot" id="batPivot">
+      <div class="bat"></div>
+    </div>
+
+    <!-- impact spark -->
+    <div class="spark" id="spark"></div>
+
+    <!-- cap stack -->
+    <div class="stack-scene" id="stackScene">
+      <div class="stack-ground-shadow"></div>
+      <div class="coin-scene" data-i="2"><div class="coin" id="coin2"><div class="coin-face"></div><div class="coin-back"></div></div></div>
+      <div class="coin-scene" data-i="1"><div class="coin" id="coin1"><div class="coin-face"></div><div class="coin-back"></div></div></div>
+      <div class="coin-scene" data-i="0"><div class="coin" id="coin0"><div class="coin-face"></div><div class="coin-back"></div></div></div>
     </div>
   </div>
 
-  <div class="coin-shadow" id="coinShadow"></div>
-
-  <div class="power-display">
-    <div class="power-number" id="powerNum">0</div>
-    <div class="power-label">INPUT POWER</div>
-  </div>
-
-  <div class="meter-bar">
-    <div class="meter-fill" id="meterFill"></div>
+  <div class="readout-row">
+    <div class="readout power"><div class="readout-num" id="powerNum">0</div><div class="readout-key">Power</div></div>
+    <div class="readout x"><div class="readout-num" id="xNum">0</div><div class="readout-key">X — точка</div></div>
+    <div class="readout y"><div class="readout-num" id="yNum">0</div><div class="readout-key">Y — спин</div></div>
   </div>
 
   <div class="stats-row">
+    <div class="stat-box"><div class="stat-val" id="winsStat">0</div><div class="stat-key">Победы</div></div>
     <div class="stat-box"><div class="stat-val" id="bestStat">0</div><div class="stat-key">Лучший</div></div>
-    <div class="stat-box"><div class="stat-val" id="avgStat">0</div><div class="stat-key">Средний</div></div>
     <div class="stat-box"><div class="stat-val" id="countStat">0</div><div class="stat-key">Ударов</div></div>
   </div>
-
-  <div class="history" id="history"></div>
 
 </div>
 
@@ -280,235 +302,241 @@
 </div>
 
 <script>
-// ─── Config ───────────────────────────────────────────────────
-let THRESHOLD = 28;       // min magnitude to count as slap
-const COOLDOWN_MS = 800;  // min ms between slaps
-const WINDOW_MS   = 200;  // ms window to find peak after trigger
+let THRESHOLD = 28;
+const COOLDOWN_MS = 900;
+const WINDOW_MS   = 150;
 
-// ─── State ────────────────────────────────────────────────────
-let lastSlapTime = 0;
-let inWindow     = false;
-let windowTimer  = null;
-let windowPeak   = 0, windowAx = 0, windowAy = 0, windowAz = 0;
-let best = 0, count = 0, total = 0, histArr = [];
+let lastSlapTime = 0, inWindow = false, windowTimer = null;
+let windowPeak = 0, peakAx = 0, peakAy = 0, peakAz = 0;
+let wins = 0, best = 0, count = 0;
+let swinging = false;
 
-// ─── DOM ──────────────────────────────────────────────────────
+// smoothed tilt for live bat movement
+let tiltX = 0, tiltY = 0;
+
 const badge     = document.getElementById('statusBadge');
 const powerNum  = document.getElementById('powerNum');
-const meterFill = document.getElementById('meterFill');
-const coin      = document.getElementById('coin');
-const shadow    = document.getElementById('coinShadow');
+const xNum      = document.getElementById('xNum');
+const yNum      = document.getElementById('yNum');
 const flashEl   = document.getElementById('flash');
-const histEl    = document.getElementById('history');
-const sensFill  = document.getElementById('sensFill');
-const sensVal   = document.getElementById('sensVal');
 const threshSlider = document.getElementById('threshSlider');
 const threshVal    = document.getElementById('threshVal');
 const debugLog  = document.getElementById('debugLog');
+const tiltReadout = document.getElementById('tiltReadout');
 
-for (let i = 0; i < 20; i++) {
-  const b = document.createElement('div');
-  b.className = 'history-bar';
-  histEl.appendChild(b);
-}
+const batPivot = document.getElementById('batPivot');
+const spark    = document.getElementById('spark');
+const coins = [document.getElementById('coin0'), document.getElementById('coin1'), document.getElementById('coin2')];
+const coinScenes = document.querySelectorAll('.coin-scene');
 
-// ─── Threshold slider ─────────────────────────────────────────
 threshSlider.addEventListener('input', () => {
   THRESHOLD = parseInt(threshSlider.value);
   threshVal.textContent = THRESHOLD;
 });
 
-// ─── Gyro init ────────────────────────────────────────────────
 function initGyro() {
   document.getElementById('permScreen').style.display = 'none';
-
-  const start = () => window.addEventListener('devicemotion', onMotion, true);
-
-  if (typeof DeviceMotionEvent !== 'undefined' &&
-      typeof DeviceMotionEvent.requestPermission === 'function') {
-    DeviceMotionEvent.requestPermission()
-      .then(s => { if (s === 'granted') start(); else alert('Нет доступа к гироскопу'); })
+  const start = () => {
+    window.addEventListener('devicemotion', onMotion, true);
+    // also listen to orientation for smooth bat tilt
+    window.addEventListener('deviceorientation', onOrient, true);
+  };
+  if (typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function') {
+    Promise.all([
+      DeviceMotionEvent.requestPermission(),
+      (typeof DeviceOrientationEvent !== 'undefined' && DeviceOrientationEvent.requestPermission)
+        ? DeviceOrientationEvent.requestPermission() : Promise.resolve('granted')
+    ]).then(([m]) => { if (m === 'granted') start(); else alert('Нет доступа к гироскопу'); })
       .catch(console.error);
-  } else {
-    start();
-  }
+  } else { start(); }
 }
 
-// ─── Motion handler ───────────────────────────────────────────
+// ── live striker position from orientation ──
+function onOrient(e) {
+  // gamma: left-right tilt (-90..90), beta: front-back (-180..180)
+  const g = e.gamma || 0;   // left/right
+  const b = e.beta  || 0;   // front/back
+
+  // smooth
+  tiltX = tiltX * 0.7 + g * 0.3;
+  tiltY = tiltY * 0.7 + (b - 45) * 0.3; // 45 = comfortable holding angle
+
+  if (!swinging) {
+    // striker hovers over the stack, moves left/right + slightly fwd/back with tilt
+    const px = Math.max(-70, Math.min(70, tiltX * 1.4));
+    const py = Math.max(-15, Math.min(15, tiltY * 0.25));
+    batPivot.style.transform = `translate(${px}px, ${py}px) rotateX(50deg)`;
+  }
+
+  tiltReadout.innerHTML = `TILT<br>x: ${Math.round(tiltX)}<br>y: ${Math.round(tiltY)}`;
+}
+
+// ── slap detection from motion ──
 function onMotion(e) {
   const acc = e.accelerationIncludingGravity || e.acceleration;
   if (!acc) return;
-
-  const ax  = acc.x || 0;
-  const ay  = acc.y || 0;
-  const az  = acc.z || 0;
+  const ax = acc.x||0, ay = acc.y||0, az = acc.z||0;
   const mag = Math.sqrt(ax*ax + ay*ay + az*az);
 
-  // live bar (remove gravity baseline ~9.8)
-  const live = Math.max(0, mag - 9.8);
-  const livePct = Math.min(100, (live / 50) * 100);
-  sensFill.style.width  = livePct + '%';
-  sensVal.textContent   = Math.round(live);
-  sensFill.style.background = livePct > 70 ? 'var(--red)' : livePct > 40 ? 'var(--green)' : 'var(--orange)';
-
-  debugLog.textContent = `mag:${mag.toFixed(1)}  thresh:${THRESHOLD}  cooldown:${Math.max(0, COOLDOWN_MS-(Date.now()-lastSlapTime))}ms`;
+  debugLog.textContent = `mag:${mag.toFixed(1)} x:${ax.toFixed(1)} y:${ay.toFixed(1)}`;
 
   const now = Date.now();
   if (now - lastSlapTime < COOLDOWN_MS) return;
 
-  // trigger detection
   if (!inWindow && mag > THRESHOLD) {
-    inWindow    = true;
-    windowPeak  = mag;
-    windowAx    = ax; windowAy = ay; windowAz = az;
-
-    // collect peak over short window then fire
+    inWindow = true;
+    windowPeak = mag; peakAx = ax; peakAy = ay; peakAz = az;
     windowTimer = setTimeout(() => {
-      inWindow = false;
-      lastSlapTime = Date.now();
-      fireSlap(windowPeak, windowAx, windowAy, windowAz);
+      inWindow = false; lastSlapTime = Date.now();
+      fireSlap(windowPeak, peakAx, peakAy, peakAz);
     }, WINDOW_MS);
   }
-
-  // track peak within window
   if (inWindow && mag > windowPeak) {
-    windowPeak = mag; windowAx = ax; windowAy = ay; windowAz = az;
+    windowPeak = mag; peakAx = ax; peakAy = ay; peakAz = az;
   }
 }
 
-// ─── Fire slap ────────────────────────────────────────────────
 function fireSlap(peakMag, ax, ay, az) {
+  if (swinging) return;
   const adjusted = Math.max(0, peakMag - 9.8);
-  const power    = Math.min(100, Math.round((adjusted / 55) * 100));
+  const power = Math.min(100, Math.round((adjusted/55)*100));
+  const xCoord = Math.max(-50, Math.min(50, Math.round(ax * 2.5)));
+  const yCoord = Math.max(-50, Math.min(50, Math.round(ay * 2.5)));
 
+  updateReadouts(power, xCoord, yCoord);
+  swingBat(power, xCoord, yCoord);
+}
+
+// ── striker drop animation ──
+function swingBat(power, x, y) {
+  swinging = true;
   badge.textContent = '⚡ УДАР!';
-  badge.className   = 'status-badge detected';
+  badge.className = 'status-badge detected';
 
+  // striker aims toward impact x
+  const aimX = Math.max(-70, Math.min(70, x * 1.2));
+
+  // lift up (wind up)
+  batPivot.style.transition = 'transform .1s ease-out';
+  batPivot.style.transform = `translate(${aimX}px, -50px) rotateX(50deg) scale(0.92)`;
+
+  // SLAM DOWN onto the stack
   setTimeout(() => {
-    badge.className = 'status-badge armed';
-    badge.textContent = '● ГОТОВ К УДАРУ';
-  }, 1200);
+    batPivot.style.transition = 'transform .09s cubic-bezier(0.5,0,1,0.4)';
+    batPivot.style.transform = `translate(${aimX}px, 60px) rotateX(50deg) scale(1.05)`;
+  }, 110);
 
-  updatePower(power);
-  updateStats(power);
+  // IMPACT
+  setTimeout(() => {
+    doImpact(power, x, y);
+    // little bounce back up
+    batPivot.style.transition = 'transform .12s ease-out';
+    batPivot.style.transform = `translate(${aimX}px, 20px) rotateX(50deg) scale(1)`;
+  }, 200);
+
+  // recover to hover
+  setTimeout(() => {
+    batPivot.style.transition = 'transform .3s ease-out';
+    batPivot.style.transform = `translate(0, 0) rotateX(50deg)`;
+    swinging = false;
+  }, 700);
+}
+
+function doImpact(power, x, y) {
+  // spark
+  spark.classList.remove('go'); void spark.offsetWidth; spark.classList.add('go');
   doFlash(power);
-  launchCoin(power);
+
+  // shake the stack
+  coinScenes.forEach(s => {
+    const dir = (Math.random() - 0.5) * (power / 5);
+    s.style.transition = 'transform .06s';
+    s.style.transform = `translateX(calc(-50% + ${dir}px))`;
+    setTimeout(() => { s.style.transform = 'translateX(-50%)'; }, 80);
+  });
+
+  // flip caps
+  const centerBonus = 1 - (Math.abs(x) + Math.abs(y)) / 100;
+  const winChance = Math.min(0.9, 0.15 + (power/100)*0.45 + centerBonus*0.2);
+  flipStack(power, winChance);
 }
 
-// ─── Coin animation ───────────────────────────────────────────
-let coinAnimId = null;
-let coinAngle  = 0;
-let coinVel    = 0;
-let coinTarget = 0;
-let coinPhase  = 'idle';
-
-function launchCoin(power) {
-  if (coinAnimId) cancelAnimationFrame(coinAnimId);
-  coin.style.transition = 'none';
-
-  const spins  = 2 + Math.floor((power / 100) * 5);
-  const lands  = Math.random() < 0.5 ? 0 : 180;
-  coinTarget   = spins * 360 + lands;
-  coinAngle    = 0;
-  coinVel      = 7 + (power / 100) * 20;
-  coinPhase    = 'flying';
-  shadow.style.opacity = '0.1';
-
-  animateCoin();
+function updateReadouts(power, x, y) {
+  powerNum.textContent = power;
+  xNum.textContent = (x>0?'+':'') + x;
+  yNum.textContent = (y>0?'+':'') + y;
+  powerNum.classList.add('on'); xNum.classList.add('on'); yNum.classList.add('on');
 }
 
-function animateCoin() {
-  if (coinPhase === 'flying') {
-    coinAngle += coinVel;
-
-    const remaining = coinTarget - coinAngle;
-    if (remaining < coinVel * 14) coinVel = Math.max(1.2, coinVel * 0.87);
-
-    if (coinAngle >= coinTarget) {
-      const norm   = coinTarget % 360;
-      coinAngle    = (norm < 90 || norm >= 270) ? 0 : 180;
-      coinPhase    = 'done';
-
-      coin.style.transition = 'transform 0.28s cubic-bezier(0.25,0.46,0.45,0.94)';
-      coin.style.transform  = `rotateX(${coinAngle}deg)`;
-      shadow.style.opacity  = '0.5';
-
-      const isHeads = coinAngle === 0;
-      setTimeout(() => {
-        badge.textContent = isHeads ? '★ ЛИЦО — ПОБЕДА' : '✕ ИЗНАНКА — МИМО';
-        badge.className   = 'status-badge ' + (isHeads ? 'result-heads' : 'result-tails');
-        coin.style.transition = 'none';
-
-        // arm again after showing result
-        setTimeout(() => {
-          badge.textContent = '● ГОТОВ К УДАРУ';
-          badge.className   = 'status-badge armed';
-        }, 1500);
-      }, 300);
-      return;
-    }
-
-    coin.style.transition = 'none';
-    coin.style.transform  = `rotateX(${coinAngle}deg)`;
-
-    const pct = coinAngle / coinTarget;
-    const arc = Math.sin(pct * Math.PI);
-    shadow.style.opacity   = (0.08 + (1 - arc) * 0.42).toString();
-    shadow.style.transform = `scaleX(${1 - arc * 0.4})`;
-  }
-
-  coinAnimId = requestAnimationFrame(animateCoin);
-}
-
-// ─── UI helpers ───────────────────────────────────────────────
-function updatePower(p) {
-  powerNum.textContent = p;
-  meterFill.style.width = p + '%';
-  powerNum.className = 'power-number';
-  if      (p < 1)  { meterFill.style.background = 'var(--muted)'; }
-  else if (p < 40) { powerNum.classList.add('mid');  meterFill.style.background = 'var(--orange)'; }
-  else if (p < 75) { powerNum.classList.add('high'); meterFill.style.background = 'var(--green)'; }
-  else             { powerNum.classList.add('max');  meterFill.style.background = 'var(--red)'; }
-}
-
-function updateStats(p) {
-  count++; total += p;
-  if (p > best) best = p;
-  document.getElementById('bestStat').textContent  = best;
-  document.getElementById('avgStat').textContent   = Math.round(total / count);
-  document.getElementById('countStat').textContent = count;
-  histArr.push(p);
-  if (histArr.length > 20) histArr.shift();
-  const bars = histEl.querySelectorAll('.history-bar');
-  bars.forEach((bar, i) => {
-    const val = histArr[histArr.length - 20 + i];
-    if (!val) { bar.style.height = '3px'; bar.style.background = 'var(--border)'; }
-    else {
-      bar.style.height     = Math.max(3, (val/100)*32) + 'px';
-      bar.style.background = val >= 75 ? 'var(--red)' : val >= 40 ? 'var(--green)' : 'var(--orange)';
-    }
+function flipStack(power, winChance) {
+  count++;
+  let roundWins = 0, settled = 0;
+  const order = [2, 1, 0];
+  order.forEach((idx, n) => {
+    setTimeout(() => {
+      const isWin = Math.random() < winChance;
+      fastFlip(coins[idx], isWin, () => {
+        if (isWin) roundWins++;
+        settled++;
+        if (settled === 3) finishRound(roundWins, power);
+      });
+    }, n * 70);
   });
 }
 
-function doFlash(p) {
-  if (p > 50) {
-    flashEl.classList.remove('go');
-    void flashEl.offsetWidth;
-    flashEl.classList.add('go');
+function fastFlip(coin, isWin, done) {
+  const spins = 3 + Math.floor(Math.random() * 3);
+  const base = 60; // resting tilt of cap (rotateX 60deg)
+  const land = isWin ? base : base + 180;
+  const target = spins * 360 + land;
+  let angle = base, vel = 40;
+  coin.style.transition = 'none';
+  function step() {
+    angle += vel;
+    if (target - angle < vel * 10) vel = Math.max(5, vel * 0.82);
+    if (angle >= target) {
+      const norm = (target % 360);
+      // settle to face (60) or back (240)
+      const final = Math.abs(((norm - 60 + 360) % 360)) < 90 ? 60 : 240;
+      coin.style.transition = 'transform .12s cubic-bezier(0.25,0.46,0.45,0.94)';
+      coin.style.transform = `rotateX(${final}deg)`;
+      setTimeout(done, 120);
+      return;
+    }
+    coin.style.transition = 'none';
+    coin.style.transform = `rotateX(${angle}deg)`;
+    requestAnimationFrame(step);
   }
+  requestAnimationFrame(step);
+}
+
+function finishRound(roundWins, power) {
+  wins += roundWins;
+  if (power > best) best = power;
+  document.getElementById('winsStat').textContent  = wins;
+  document.getElementById('bestStat').textContent  = best;
+  document.getElementById('countStat').textContent = count;
+  const won = roundWins >= 2;
+  badge.textContent = won ? `★ ${roundWins}/3 — ВЗЯЛ СТЭК` : `✕ ${roundWins}/3 — МАЛО`;
+  badge.className = 'status-badge ' + (won ? 'result-win' : 'result-lose');
+  setTimeout(() => {
+    badge.textContent = '● ЦЕЛЬСЯ И БЕЙ';
+    badge.className = 'status-badge armed';
+  }, 1400);
+}
+
+function doFlash(p) {
+  if (p > 50) { flashEl.classList.remove('go'); void flashEl.offsetWidth; flashEl.classList.add('go'); }
 }
 
 function resetAll() {
-  best = 0; count = 0; total = 0; histArr = [];
-  updatePower(0);
-  ['bestStat','avgStat','countStat'].forEach(id => document.getElementById(id).textContent = '0');
-  histEl.querySelectorAll('.history-bar').forEach(b => { b.style.height='3px'; b.style.background='var(--border)'; });
-  coin.style.transition = 'none';
-  coin.style.transform  = 'rotateX(0deg)';
-  shadow.style.opacity  = '0.5';
-  if (coinAnimId) { cancelAnimationFrame(coinAnimId); coinAnimId = null; }
-  badge.textContent = '● ГОТОВ К УДАРУ';
-  badge.className   = 'status-badge armed';
+  wins = 0; best = 0; count = 0;
+  powerNum.textContent='0'; xNum.textContent='0'; yNum.textContent='0';
+  [powerNum,xNum,yNum].forEach(el=>el.classList.remove('on'));
+  ['winsStat','bestStat','countStat'].forEach(id=>document.getElementById(id).textContent='0');
+  coins.forEach(c=>{ c.style.transition='none'; c.style.transform='rotateX(60deg)'; });
+  badge.textContent='● ЦЕЛЬСЯ И БЕЙ';
+  badge.className='status-badge armed';
 }
 </script>
 </body>
