@@ -131,7 +131,6 @@
     width:100%;
     display:flex;flex-direction:column;align-items:center;
   }
-  .hero-bottom .stats{margin:0 auto 26px;width:100%;max-width:520px}
   .hero-bottom .club-id{margin-top:24px}
   .hero .hero-tag{
     font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;
@@ -169,12 +168,24 @@
   .btn svg{width:18px;height:18px}
 
   /* gold accent line at every block seam */
-  #standard,#limits,#leaderboard,#gallery,#settlement,#rules,#agents,footer{position:relative}
-  #standard::before,#limits::before,#leaderboard::before,#gallery::before,#settlement::before,#rules::before,#agents::before,footer::before{
+  #pedigree,#standard,#limits,#leaderboard,#gallery,#settlement,#rules,#agents,footer{position:relative}
+  #pedigree::before,#standard::before,#limits::before,#leaderboard::before,#gallery::before,#settlement::before,#rules::before,#agents::before,footer::before{
     content:"";position:absolute;top:0;left:0;right:0;height:1px;z-index:3;pointer-events:none;
     background:var(--line);
   }
   #gallery,#rules{background:#0C0C0F}
+
+  /* ---------- PEDIGREE / LEGACY BANNER ---------- */
+  .legacy{background:#0C0C0F;text-align:center}
+  .legacy .seal{display:flex;justify-content:center;margin:0 auto 16px}
+  .legacy .seal svg{width:50px;height:50px;color:var(--gold-1)}
+  .legacy h2{
+    font-family:'Cinzel',serif;font-weight:700;font-style:italic;
+    font-size:clamp(1.5rem,4vw,2.4rem);
+    line-height:1.25;letter-spacing:.01em;
+    max-width:760px;margin:0 auto;
+  }
+  .legacy p{max-width:600px;margin:18px auto 0;color:var(--muted);font-size:1rem}
 
   /* ---------- SECTION HEADINGS ---------- */
   .sec-head{text-align:center;margin-bottom:54px}
@@ -182,7 +193,7 @@
   .sec-ic{display:flex;justify-content:center;margin-bottom:16px}
   .sec-ic svg{width:50px;height:50px;color:var(--gold-1)}
   /* soft glow on all icons */
-  .sec-ic svg,.feature .ic svg{
+  .sec-ic svg,.legacy .seal svg,.feature .ic svg{
     filter:drop-shadow(0 0 9px rgba(231,193,90,.5)) drop-shadow(0 0 2px rgba(231,193,90,.4));
   }
   .sec-head h2{
@@ -190,12 +201,6 @@
     font-size:clamp(1.8rem,4.5vw,2.8rem);letter-spacing:.02em;
     line-height:1.3;
   }
-  .standard-lead{
-    font-family:'Cinzel',serif;font-weight:700;font-style:italic;
-    font-size:clamp(1.3rem,3.2vw,1.9rem);line-height:1.3;letter-spacing:.01em;
-    max-width:760px;margin:20px auto 0;
-  }
-  .standard-sub{max-width:600px;margin:16px auto 0;color:var(--muted);font-size:1rem}
   .pad{padding:104px 0}
   /* unified band background for even blocks */
   .band{background:linear-gradient(180deg,var(--panel-2),#090909);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
@@ -718,11 +723,6 @@
 
 
   <div class="hero-bottom">
-    <div class="stats">
-      <div class="stat"><div class="num"><span class="d z">0</span><span class="d z">0</span><span class="d z">0</span><span class="d z">0</span><span class="d z">0</span><span class="d">9</span></div><div class="lab">Agents</div></div>
-      <div class="stat"><div class="num"><span class="d z">0</span><span class="d z">0</span><span class="d z">0</span><span class="d">2</span><span class="d">4</span><span class="d">7</span></div><div class="lab">Players</div></div>
-      <div class="stat"><div class="num"><span class="d z">0</span><span class="d z">0</span><span class="d">7</span><span class="d">8</span><span class="d">9</span><span class="d">9</span></div><div class="lab">Hands</div></div>
-    </div>
   <div class="cta-row">
     <a class="btn btn-ghost" href="#limits">Tables &amp; Limits</a>
     <a class="btn btn-gold" href="https://t.me/YOUR_AGENT_HANDLE" target="_blank" rel="noopener">
@@ -736,6 +736,23 @@
 </section>
 
 
+<!-- ===================== PEDIGREE ===================== -->
+<section id="pedigree" class="legacy pad">
+  <div class="wrap reveal">
+    <div class="seal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><path d="m9 12 2 2 4-4"/></svg></div>
+    <div class="eyebrow" style="margin-bottom:16px">Proven Pedigree</div>
+    <h2 class="gold-text">The team behind the #1 online poker club in the CIS now opens the gates to OLYMP.</h2>
+    <p>Same operators. Same discipline on payouts and security. A new home built for serious PLO action and the agents who bring it.</p>
+
+    <div class="stats">
+      <div class="stat"><div class="num"><span class="d z">0</span><span class="d z">0</span><span class="d z">0</span><span class="d z">0</span><span class="d z">0</span><span class="d">9</span></div><div class="lab">Agents</div></div>
+      <div class="stat"><div class="num"><span class="d z">0</span><span class="d z">0</span><span class="d z">0</span><span class="d">2</span><span class="d">4</span><span class="d">7</span></div><div class="lab">Players</div></div>
+      <div class="stat"><div class="num"><span class="d z">0</span><span class="d z">0</span><span class="d">7</span><span class="d">8</span><span class="d">9</span><span class="d">9</span></div><div class="lab">Hands</div></div>
+    </div>
+  </div>
+</section>
+
+
 <!-- ===================== THE OLYMP STANDARD ===================== -->
 <section id="standard" class="pad">
   <div class="wrap">
@@ -743,8 +760,6 @@
       <div class="sec-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2 2.8 8h18.4L12 3.2Z"/><path d="M5 8v8.5M9 8v8.5M12 8v8.5M15 8v8.5M19 8v8.5"/><path d="M3.5 16.5h17"/><path d="M2.5 20.4h19"/></svg></div>
       <span class="eyebrow">Why OLYMP</span>
       <h2 class="gold-text">The OLYMP Standard</h2>
-      <p class="gold-text standard-lead">The team behind the #1 online poker club in the CIS now opens the gates to <span style="font-style:normal">OLYMP</span>.</p>
-      <p class="standard-sub">Same operators. Same discipline on payouts and security. A new home built for serious PLO action and the agents who bring it.</p>
     </div>
 
     <div class="features reveal">
