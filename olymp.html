@@ -168,12 +168,11 @@
 
   /* gold accent line at every block seam */
   #standard,#limits,#leaderboard,#gallery,#settlement,#rules,#agents,footer{position:relative}
-  #limits::before,#leaderboard::before,#gallery::before,#settlement::before,#rules::before,#agents::before,footer::before{
+  #standard::before,#limits::before,#leaderboard::before,#gallery::before,#settlement::before,#rules::before,#agents::before,footer::before{
     content:"";position:absolute;top:0;left:0;right:0;height:1px;z-index:3;pointer-events:none;
     background:var(--line);
   }
   #gallery,#rules{background:#0C0C0F}
-  #standard{padding-top:0}
 
   /* ---------- SECTION HEADINGS ---------- */
   .sec-head{text-align:center;margin-bottom:54px}
