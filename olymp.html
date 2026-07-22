@@ -578,10 +578,31 @@
     html{scroll-behavior:auto}
   }
 
+  /* ---------- RED RUNNING TICKER ---------- */
+  .ticker{
+    position:fixed;top:0;left:0;right:0;z-index:1250;
+    height:34px;display:flex;align-items:center;overflow:hidden;
+    background:#C1121B;color:#fff;
+    border-bottom:1px solid rgba(0,0,0,.3);
+    box-shadow:0 2px 14px rgba(0,0,0,.35);
+  }
+  .ticker .track{
+    display:flex;flex-shrink:0;white-space:nowrap;width:max-content;
+    animation:ticker-scroll 22s linear infinite;
+  }
+  .ticker .track span{
+    padding:0 22px;
+    font-family:'Inter',sans-serif;font-weight:900;
+    font-size:1rem;letter-spacing:.16em;text-transform:uppercase;
+  }
+  .ticker .track .sep{color:rgba(255,255,255,.55);font-weight:700}
+  .ticker:hover .track{animation-play-state:paused}
+  @keyframes ticker-scroll{ from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
   /* ---------- TOP BAR / BURGER / LANG ---------- */
-  html{scroll-padding-top:64px}
+  html{scroll-padding-top:96px}
   .topbar{
-    position:fixed;top:0;left:0;right:0;z-index:1200;
+    position:fixed;top:34px;left:0;right:0;z-index:1200;
     display:flex;align-items:center;justify-content:space-between;
     padding:14px 20px;
     background:linear-gradient(180deg,rgba(8,8,10,.72),rgba(8,8,10,0));
@@ -690,6 +711,16 @@
 </style>
 </head>
 <body>
+
+<!-- ===================== RED TICKER ===================== -->
+<div class="ticker" aria-hidden="true">
+  <div class="track" id="tickerTrack">
+    <span>Up to 100% Rakeback</span><span class="sep">◆</span>
+    <span>Up to 100% Rakeback</span><span class="sep">◆</span>
+    <span>Up to 100% Rakeback</span><span class="sep">◆</span>
+    <span>Up to 100% Rakeback</span><span class="sep">◆</span>
+  </div>
+</div>
 
 <!-- ===================== TOP BAR ===================== -->
 <header class="topbar">
@@ -1088,6 +1119,10 @@
     if(r.top < (window.innerHeight||800)) el.classList.add('in');
   }));
   setTimeout(()=>revealEls.forEach(el=>el.classList.add('in')), 2000);
+
+  // Duplicate ticker text for a seamless running loop
+  const tickerTrack = document.getElementById('tickerTrack');
+  if(tickerTrack) tickerTrack.innerHTML += tickerTrack.innerHTML;
 
   // Duplicate payment chips for a seamless marquee loop
   const payTrack = document.getElementById('payTrack');
