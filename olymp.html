@@ -438,16 +438,32 @@
   }
   .stat{
     background:transparent;
-    padding:22px 16px;text-align:center;
+    padding:22px 10px;text-align:center;
   }
   .stat + .stat{border-left:1px solid rgba(154,110,28,.3)}
+  /* mechanical counter: each digit in its own dark cell */
   .stat .num{
+    display:flex;justify-content:center;gap:3px;
     font-family:'Cinzel',serif;font-weight:700;
-    font-size:clamp(1.7rem,4.6vw,2.4rem);line-height:1;
+    font-size:clamp(1.05rem,3vw,1.5rem);line-height:1;
     color:var(--gold-1);
-    font-variant-numeric:tabular-nums;letter-spacing:.04em;
+    font-variant-numeric:tabular-nums;letter-spacing:0;
   }
-  .stat .num .z{color:rgba(154,110,28,.24)}
+  .stat .num .d{
+    position:relative;
+    display:flex;align-items:center;justify-content:center;
+    min-width:.82em;padding:.22em .05em;
+    background:linear-gradient(180deg,#050506,#111116 52%,#050506);
+    border:1px solid rgba(154,110,28,.35);
+    border-radius:4px;
+    box-shadow:inset 0 1px 3px rgba(0,0,0,.9), 0 1px 0 rgba(255,255,255,.04);
+  }
+  /* split-flap seam across the middle of each digit */
+  .stat .num .d::after{
+    content:"";position:absolute;left:1px;right:1px;top:50%;height:1px;
+    background:rgba(0,0,0,.6);
+  }
+  .stat .num .z{color:rgba(154,110,28,.3)}
   .stat .lab{
     font-size:.64rem;letter-spacing:.2em;text-transform:uppercase;
     color:var(--muted);margin-top:10px;
@@ -527,6 +543,9 @@
     .games,.settle,.rules{grid-template-columns:1fr}
     .features{grid-template-columns:1fr}
     .stats{grid-template-columns:repeat(3,1fr)}
+    .stat{padding:18px 4px}
+    .stat .num{gap:2px;font-size:clamp(.8rem,3.3vw,1.1rem)}
+    .stat .num .d{min-width:.78em;padding:.2em .03em;border-radius:3px}
     .gallery-track{gap:12px}
     .shot{width:150px}
     .limits-strip{grid-template-columns:1fr}
@@ -700,9 +719,9 @@
 
   <div class="hero-bottom">
     <div class="stats">
-      <div class="stat"><div class="num"><span class="z">00000</span>9</div><div class="lab">Agents</div></div>
-      <div class="stat"><div class="num"><span class="z">000</span>247</div><div class="lab">Players</div></div>
-      <div class="stat"><div class="num"><span class="z">00</span>7899</div><div class="lab">Hands</div></div>
+      <div class="stat"><div class="num"><span class="d z">0</span><span class="d z">0</span><span class="d z">0</span><span class="d z">0</span><span class="d z">0</span><span class="d">9</span></div><div class="lab">Agents</div></div>
+      <div class="stat"><div class="num"><span class="d z">0</span><span class="d z">0</span><span class="d z">0</span><span class="d">2</span><span class="d">4</span><span class="d">7</span></div><div class="lab">Players</div></div>
+      <div class="stat"><div class="num"><span class="d z">0</span><span class="d z">0</span><span class="d">7</span><span class="d">8</span><span class="d">9</span><span class="d">9</span></div><div class="lab">Hands</div></div>
     </div>
   <div class="cta-row">
     <a class="btn btn-ghost" href="#limits">Tables &amp; Limits</a>
