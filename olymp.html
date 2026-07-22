@@ -236,6 +236,12 @@
     background:var(--obsidian);
     border:1px solid var(--line);
   }
+  .limit .tbl{display:flex;justify-content:center;margin-bottom:12px}
+  .limit .tbl svg{
+    width:34px;height:34px;color:var(--gold-2);
+    filter:drop-shadow(0 0 7px rgba(231,193,90,.4)) drop-shadow(0 0 2px rgba(231,193,90,.35));
+  }
+  .limit.high .tbl svg{color:var(--gold-1)}
   .limit .val{font-family:'Cinzel',serif;font-weight:700;font-size:1.5rem;color:var(--gold-1)}
   .limit .lab{font-size:.66rem;letter-spacing:.24em;text-transform:uppercase;color:var(--muted-2);margin-top:6px}
   .limit.high{background:linear-gradient(180deg,rgba(231,193,90,.08),rgba(231,193,90,.02));border:1px solid var(--gold-deep);position:relative;overflow:hidden}
@@ -811,11 +817,11 @@
     </div>
 
     <div class="limits-strip reveal">
-      <div class="limit"><div class="val">1/2</div><div class="lab">8 tables</div></div>
-      <div class="limit"><div class="val">3/6</div><div class="lab">6 tables</div></div>
-      <div class="limit"><div class="val">5/10</div><div class="lab">4 tables</div></div>
-      <div class="limit"><div class="val">10/20</div><div class="lab">2 tables</div></div>
-      <div class="limit high"><div class="val gold-text">⚡️ 20/40+</div><div class="lab">No Cap · Verified</div></div>
+      <div class="limit"><div class="tbl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7.5" width="18" height="9" rx="4.5"/><rect x="6.5" y="10" width="11" height="4" rx="2"/><g fill="currentColor" stroke="none"><circle cx="6.5" cy="5.7" r=".85"/><circle cx="12" cy="5.2" r=".85"/><circle cx="17.5" cy="5.7" r=".85"/><circle cx="6.5" cy="18.3" r=".85"/><circle cx="12" cy="18.8" r=".85"/><circle cx="17.5" cy="18.3" r=".85"/></g></svg></div><div class="val">1/2</div><div class="lab">8 tables</div></div>
+      <div class="limit"><div class="tbl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7.5" width="18" height="9" rx="4.5"/><rect x="6.5" y="10" width="11" height="4" rx="2"/><g fill="currentColor" stroke="none"><circle cx="6.5" cy="5.7" r=".85"/><circle cx="12" cy="5.2" r=".85"/><circle cx="17.5" cy="5.7" r=".85"/><circle cx="6.5" cy="18.3" r=".85"/><circle cx="12" cy="18.8" r=".85"/><circle cx="17.5" cy="18.3" r=".85"/></g></svg></div><div class="val">3/6</div><div class="lab">6 tables</div></div>
+      <div class="limit"><div class="tbl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7.5" width="18" height="9" rx="4.5"/><rect x="6.5" y="10" width="11" height="4" rx="2"/><g fill="currentColor" stroke="none"><circle cx="6.5" cy="5.7" r=".85"/><circle cx="12" cy="5.2" r=".85"/><circle cx="17.5" cy="5.7" r=".85"/><circle cx="6.5" cy="18.3" r=".85"/><circle cx="12" cy="18.8" r=".85"/><circle cx="17.5" cy="18.3" r=".85"/></g></svg></div><div class="val">5/10</div><div class="lab">4 tables</div></div>
+      <div class="limit"><div class="tbl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7.5" width="18" height="9" rx="4.5"/><rect x="6.5" y="10" width="11" height="4" rx="2"/><g fill="currentColor" stroke="none"><circle cx="6.5" cy="5.7" r=".85"/><circle cx="12" cy="5.2" r=".85"/><circle cx="17.5" cy="5.7" r=".85"/><circle cx="6.5" cy="18.3" r=".85"/><circle cx="12" cy="18.8" r=".85"/><circle cx="17.5" cy="18.3" r=".85"/></g></svg></div><div class="val">10/20</div><div class="lab">2 tables</div></div>
+      <div class="limit high"><div class="tbl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7.5" width="18" height="9" rx="4.5"/><rect x="6.5" y="10" width="11" height="4" rx="2"/><g fill="currentColor" stroke="none"><circle cx="6.5" cy="5.7" r=".85"/><circle cx="12" cy="5.2" r=".85"/><circle cx="17.5" cy="5.7" r=".85"/><circle cx="6.5" cy="18.3" r=".85"/><circle cx="12" cy="18.8" r=".85"/><circle cx="17.5" cy="18.3" r=".85"/></g></svg></div><div class="val gold-text">⚡️ 20/40+</div><div class="lab">No Cap · Verified</div></div>
     </div>
 
     <p class="nocap-note reveal">Verified <b>no-cap</b> tables run from 20/40 and up. Custom limits available for qualified agents.</p>
