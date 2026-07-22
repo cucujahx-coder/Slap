@@ -453,29 +453,41 @@
     padding:22px 10px;text-align:center;
   }
   .stat + .stat{border-left:1px solid rgba(154,110,28,.3)}
-  /* mechanical counter: each digit in its own dark cell */
+  /* golden slot-machine reels: each digit on its own gold-framed reel */
   .stat .num{
-    display:flex;justify-content:center;gap:3px;
+    display:flex;justify-content:center;gap:5px;
     font-family:'Cinzel',serif;font-weight:700;
     font-size:clamp(1.05rem,3vw,1.5rem);line-height:1;
     color:var(--gold-1);
     font-variant-numeric:tabular-nums;letter-spacing:0;
   }
   .stat .num .d{
-    position:relative;
+    position:relative;overflow:hidden;
     display:flex;align-items:center;justify-content:center;
-    min-width:.82em;padding:.22em .05em;
-    background:linear-gradient(180deg,#050506,#111116 52%,#050506);
-    border:1px solid rgba(154,110,28,.35);
-    border-radius:4px;
-    box-shadow:inset 0 1px 3px rgba(0,0,0,.9), 0 1px 0 rgba(255,255,255,.04);
+    min-width:.92em;padding:.3em .14em;
+    border-radius:6px;
+    /* reel drum: bright at the payline, fading dark toward the edges */
+    background:linear-gradient(180deg,#0A0703 0%,#1C1406 26%,#33260B 50%,#1C1406 74%,#0A0703 100%);
+    /* golden metallic frame + reel depth */
+    box-shadow:
+      0 0 0 1px var(--gold-deep),
+      inset 0 0 0 1px rgba(251,231,168,.18),
+      inset 0 7px 9px -5px rgba(255,236,183,.4),
+      inset 0 -7px 9px -5px rgba(0,0,0,.9);
+    color:var(--gold-1);
+    text-shadow:0 1px 2px rgba(0,0,0,.85), 0 0 7px rgba(231,193,90,.4);
   }
-  /* split-flap seam across the middle of each digit */
+  /* glass reflection along the top of the reel */
+  .stat .num .d::before{
+    content:"";position:absolute;left:0;right:0;top:0;height:44%;pointer-events:none;
+    background:linear-gradient(180deg,rgba(255,255,255,.22),transparent);
+  }
+  /* golden payline across the middle */
   .stat .num .d::after{
-    content:"";position:absolute;left:1px;right:1px;top:50%;height:1px;
-    background:rgba(0,0,0,.6);
+    content:"";position:absolute;left:0;right:0;top:50%;height:1px;transform:translateY(-.5px);pointer-events:none;
+    background:linear-gradient(90deg,transparent,rgba(251,231,168,.55),transparent);
   }
-  .stat .num .z{color:rgba(154,110,28,.3)}
+  .stat .num .z{color:rgba(154,110,28,.45);text-shadow:0 1px 2px rgba(0,0,0,.7)}
   .stat .lab{
     font-size:.64rem;letter-spacing:.2em;text-transform:uppercase;
     color:var(--muted);margin-top:10px;
@@ -556,8 +568,8 @@
     .features{grid-template-columns:1fr}
     .stats{grid-template-columns:repeat(3,1fr)}
     .stat{padding:18px 4px}
-    .stat .num{gap:2px;font-size:clamp(.8rem,3.3vw,1.1rem)}
-    .stat .num .d{min-width:.78em;padding:.2em .03em;border-radius:3px}
+    .stat .num{gap:3px;font-size:clamp(.8rem,3.3vw,1.1rem)}
+    .stat .num .d{min-width:.82em;padding:.26em .05em;border-radius:4px}
     .gallery-track{gap:12px}
     .shot{width:150px}
     .limits-strip{grid-template-columns:1fr}
