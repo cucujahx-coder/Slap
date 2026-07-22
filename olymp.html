@@ -577,13 +577,15 @@
     background:linear-gradient(180deg,rgba(8,8,10,.72),rgba(8,8,10,0));
   }
   .burger{
-    width:44px;height:44px;border:1px solid var(--line);border-radius:10px;
-    background:rgba(8,8,10,.5);cursor:pointer;
-    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;
+    display:inline-flex;align-items:center;gap:9px;
+    border:1px solid var(--line);border-radius:10px;background:rgba(8,8,10,.5);
+    color:var(--gold-1);cursor:pointer;padding:11px 15px;
+    font-family:'Inter',sans-serif;font-weight:600;font-size:.76rem;letter-spacing:.14em;text-transform:uppercase;
     transition:border-color .2s ease;
   }
   .burger:hover{border-color:var(--gold-deep)}
-  .burger span{display:block;width:18px;height:2px;background:var(--gold-1);border-radius:2px;transition:transform .25s ease,opacity .25s ease}
+  .burger-ic{display:flex;flex-direction:column;gap:4px}
+  .burger-ic span{display:block;width:18px;height:2px;background:var(--gold-1);border-radius:2px}
   .lang{position:relative}
   .lang-btn{
     border:1px solid var(--line);border-radius:10px;background:rgba(8,8,10,.5);
@@ -681,7 +683,7 @@
 
 <!-- ===================== TOP BAR ===================== -->
 <header class="topbar">
-  <button class="burger" id="burgerBtn" aria-label="Open menu"><span></span><span></span><span></span></button>
+  <button class="burger" id="burgerBtn" aria-label="Open menu"><span class="burger-ic"><span></span><span></span><span></span></span>Menu</button>
   <div class="lang" id="langWrap">
     <button class="lang-btn" id="langBtn">EN ▾</button>
     <div class="lang-menu" id="langMenu">
